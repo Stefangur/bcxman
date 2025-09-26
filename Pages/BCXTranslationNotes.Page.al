@@ -1,7 +1,7 @@
 #pragma implicitwith disable
 page 78604 "BCX Translation Notes"
 {
-    PageType = Listpart;
+    PageType = ListPart;
     SourceTable = "BCX Translation Notes";
     Caption = 'Translation Notes';
     Editable = false;

@@ -9,7 +9,7 @@ page 78613 "BCX Translation Activities"
     {
         area(Content)
         {
-            cuegroup("Statuses")
+            cuegroup(Statuses)
             {
                 Caption = 'Statuses';
                 field("Open Projects"; Rec."Open Projects")
@@ -28,7 +28,7 @@ page 78613 "BCX Translation Activities"
                     ToolTip = 'Finished Projects - sent to customer and done for now';
                 }
             }
-            cuegroup("Totals")
+            cuegroup(Totals)
             {
                 Caption = 'Totals';
                 field("Projects this Month"; Rec."Projects this Month")

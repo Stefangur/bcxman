@@ -6,7 +6,7 @@ table 78603 "BCX Target Language"
 
     fields
     {
-        field(10; "Project Code"; code[10])
+        field(10; "Project Code"; Code[20])
         {
             DataClassification = AccountData;
             Caption = 'Project Code';
@@ -47,7 +47,7 @@ table 78603 "BCX Target Language"
                     Language.TestField("BCX ISO code");
                     "Target Language ISO code" := Language."BCX ISO code"
                 end else
-                    clear("Target Language ISO code");
+                    Clear("Target Language ISO code");
             end;
         }
         field(45; "Target Language ISO code"; Text[10])
@@ -74,7 +74,7 @@ table 78603 "BCX Target Language"
                     Language.TestField("BCX ISO code");
                     "Equivalent Language ISO code" := Language."BCX ISO code"
                 end else
-                    clear("Equivalent Language ISO code");
+                    Clear("Equivalent Language ISO code");
             end;
         }
         field(65; "Equivalent Language ISO code"; Text[10])

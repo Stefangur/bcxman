@@ -15,11 +15,11 @@ page 78609 "BCX About AL Translation Tool"
                 Caption = 'About AL Translation Tool';
                 InstructionalText = 'Open-Source AL Translate Tool. Source code can be located at https://github.com/Theil-IT/bcxman.';
             }
-            grid("App")
+            grid(App)
             {
                 ShowCaption = false;
                 GridLayout = Columns;
-                group("Group2")
+                group(Group2)
                 {
                     ShowCaption = false;
                     field("Version"; AppVersion)
@@ -51,7 +51,7 @@ page 78609 "BCX About AL Translation Tool"
     trigger OnOpenPage()
     begin
         if NavApp.GetCurrentModuleInfo(AppModuleInfo) then begin
-            AppVersion := format(AppModuleInfo.AppVersion);
+            AppVersion := Format(AppModuleInfo.AppVersion);
             AppName := AppModuleInfo.Name;
             AppPublisher := AppModuleInfo.Publisher;
         end;

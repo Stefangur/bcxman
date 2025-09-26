@@ -10,11 +10,12 @@ table 78602 "BCX Translation Target"
             DataClassification = SystemMetadata;
             Caption = 'Line No.';
         }
-        field(10; "Project Code"; code[10])
+        field(10; "Project Code"; Code[20])
         {
             DataClassification = AccountData;
             Caption = 'Project Code';
             Editable = false;
+            TableRelation = "BCX Translation Project";
         }
         field(20; "Trans-Unit Id"; Text[250])
         {
@@ -22,7 +23,7 @@ table 78602 "BCX Translation Target"
             Caption = 'Trans-Unit Id';
             Editable = false;
         }
-        field(30; "Target Language"; code[10])
+        field(30; "Target Language"; Code[10])
         {
             DataClassification = AccountData;
             Caption = 'Target Language';
@@ -35,13 +36,13 @@ table 78602 "BCX Translation Target"
             Editable = false;
         }
 
-        field(50; "Source"; Text[2048])
+        field(50; Source; Text[2048])
         {
             DataClassification = AccountData;
             Caption = 'Source';
             Editable = false;
         }
-        field(60; "Target"; Text[2048])
+        field(60; Target; Text[2048])
         {
             DataClassification = AccountData;
             Caption = 'Target';
@@ -51,7 +52,7 @@ table 78602 "BCX Translation Target"
                 UpdateAllTargetInstances();
             end;
         }
-        field(70; "Translate"; Boolean)
+        field(70; Translate; Boolean)
         {
             DataClassification = AccountData;
             Caption = 'Translate';
@@ -62,7 +63,7 @@ table 78602 "BCX Translation Target"
             Caption = 'size-unit';
             DataClassification = AccountData;
         }
-        field(90; "TranslateAttr"; Text[10])
+        field(90; TranslateAttr; Text[10])
         {
             Caption = 'TranslateAttr';
             DataClassification = AccountData;
@@ -82,11 +83,11 @@ table 78602 "BCX Translation Target"
             DataClassification = AccountData;
             Caption = 'al-object-target';
         }
-        field(130; "Occurrencies"; Integer)
+        field(130; Occurrencies; Integer)
         {
             Caption = 'Occurrencies';
             FieldClass = FlowField;
-            CalcFormula = Count("BCX Translation Target" WHERE("Source" = FIELD(Source), "Target Language" = FIELD("Target Language")));
+            CalcFormula = count("BCX Translation Target" where(Source = field(Source), "Target Language" = field("Target Language")));
         }
         field(140; "Field Name"; Text[2048])
         {
@@ -101,6 +102,12 @@ table 78602 "BCX Translation Target"
         key(PK; "Project Code", "Target Language", "Trans-Unit Id")
         {
             Clustered = true;
+        }
+        key(SGUKey2; Source, "Target Language ISO code", Translate)
+        {
+        }
+        key(SGUKey3; "Project Code", "Target Language ISO code")
+        {
         }
     }
     procedure UpdateAllTargetInstances()
@@ -117,7 +124,7 @@ table 78602 "BCX Translation Target"
             exit;
         if Instances > 1 then begin
             if CurrFieldNo > 0 then
-                if not confirm(QuestionTxt) then
+                if not Confirm(QuestionTxt) then
                     exit;
             TransTarget.SetFilter("Trans-Unit Id", '<>%1', "Trans-Unit Id");
             TransTarget.ModifyAll(Target, Target);

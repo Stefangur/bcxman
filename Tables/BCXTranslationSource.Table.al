@@ -10,17 +10,18 @@ table 78601 "BCX Translation Source"
             DataClassification = SystemMetadata;
             Caption = 'Line No.';
         }
-        field(10; "Project Code"; code[10])
+        field(10; "Project Code"; Code[20])
         {
             DataClassification = AccountData;
             Caption = 'Project Code';
+            TableRelation = "BCX Translation Project";
         }
         field(20; "Trans-Unit Id"; Text[250])
         {
             DataClassification = AccountData;
             Caption = 'Trans-Unit Id';
         }
-        field(50; "Source"; Text[2048])
+        field(50; Source; Text[2048])
         {
             DataClassification = AccountData;
             Caption = 'Source';
@@ -30,7 +31,7 @@ table 78601 "BCX Translation Source"
             DataClassification = AccountData;
             Caption = 'size-unit';
         }
-        field(90; "TranslateAttr"; Text[10])
+        field(90; TranslateAttr; Text[10])
         {
             DataClassification = AccountData;
             Caption = 'TranslateAttr';

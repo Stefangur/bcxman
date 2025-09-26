@@ -91,7 +91,7 @@ xmlport 78601 "BCX Export Translation Target"
                                 Occurrence = Optional;
                                 trigger OnAfterAssignVariable()
                                 begin
-                                    target."al-object-target" := "al-object-target";
+                                    Target."al-object-target" := "al-object-target";
                                 end;
                             }
                             fieldelement(Source; Target.Source)
@@ -144,18 +144,18 @@ xmlport 78601 "BCX Export Translation Target"
         TempFile: Text;
         TargetLanguage: Text;
     begin
-        TransProject.Get(target.getfilter("Project Code"));
+        TransProject.Get(Target.GetFilter("Project Code"));
         TargetLanguage := TargetTransCode;
         TempFile := TransProject."File Name";
-        
-        if StrPos(lowercase(TempFile), '.g.xlf') > 0 then
-            currXMLport.Filename := CopyStr(TempFile, 1, StrPos(lowercase(TempFile), '.g.xlf')) +
+
+        if StrPos(LowerCase(TempFile), '.g.xlf') > 0 then
+            currXMLport.Filename := CopyStr(TempFile, 1, StrPos(LowerCase(TempFile), '.g.xlf')) +
                                      TargetLanguage + '.xlf'
-        else if StrPos(lowercase(TempFile), '.xlf') > 0 then
-            currXMLport.Filename := CopyStr(TempFile, 1, StrPos(lowercase(TempFile), '.xlf')) +
+        else if StrPos(LowerCase(TempFile), '.xlf') > 0 then
+            currXMLport.Filename := CopyStr(TempFile, 1, StrPos(LowerCase(TempFile), '.xlf')) +
                                      TargetLanguage + '.xlf'
-        else if StrPos(lowercase(TempFile), '.xlif') > 0 then
-            currXMLport.Filename := CopyStr(TempFile, 1, StrPos(lowercase(TempFile), '.xlif')) +
+        else if StrPos(LowerCase(TempFile), '.xlif') > 0 then
+            currXMLport.Filename := CopyStr(TempFile, 1, StrPos(LowerCase(TempFile), '.xlif')) +
                                      TargetLanguage + '.xlif';
     end;
 
@@ -189,7 +189,7 @@ xmlport 78601 "BCX Export Translation Target"
             TransNotes."Project Code" := ProjectCode;
             TransNotes."Trans-Unit Id" := Target."Trans-Unit Id";
             if TransNotes.Insert() then;
-            clear(TransNotes);
+            Clear(TransNotes);
         end;
     end;
 }

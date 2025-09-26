@@ -58,6 +58,7 @@ page 78602 "BCX Target Language List"
             part(FactBox; "BCX Trans Source Factbox")
             {
                 SubPageLink = "Project Code" = field("Project Code");
+                ApplicationArea = All;
             }
         }
     }
@@ -253,6 +254,9 @@ page 78602 "BCX Target Language List"
                     ImportedTxt: Label 'The file %1 has been imported into project %2';
                     FileName: Text;
                 begin
+                    ///SGU >>
+                    TransTarget.SetCurrentKey("Project Code", "Target Language ISO code");
+                    ///SGU <<
                     TransTarget.SetRange("Project Code", Rec."Project Code");
                     TransTarget.SetRange("Target Language ISO code", Rec."Target Language ISO code");
                     if not TransTarget.IsEmpty then begin
@@ -260,17 +264,17 @@ page 78602 "BCX Target Language List"
                             exit;
                         TransTarget.DeleteAll();
                     end;
-                    TransProject.get(Rec."Project Code");
+                    TransProject.Get(Rec."Project Code");
 
                     if not File.UploadIntoStream('Select target XLIFF file', '', 'Xliff files (*.xlf;*.xliff)|*.xlf;*.xliff', FileName, InS) then
                         exit;
                     XliffParser.ImportTargetFromStream(Rec."Project Code", Rec."Source Language ISO code", Rec."Target Language ISO code", FileName, InS);
                     Success := true;
 
-                    while (strpos(FileName, '\') > 0) do
-                        FileName := copystr(FileName, strpos(FileName, '\') + 1);
+                    while (StrPos(FileName, '\') > 0) do
+                        FileName := CopyStr(FileName, StrPos(FileName, '\') + 1);
                     if Success then
-                        message(ImportedTxt, FileName, Rec."Project Code");
+                        Message(ImportedTxt, FileName, Rec."Project Code");
                 end;
             }
 
@@ -288,4 +292,3 @@ page 78602 "BCX Target Language List"
     end;
 
 }
-#pragma implicitwith restore

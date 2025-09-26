@@ -6,13 +6,14 @@ table 78607 "BCX Gen. Translation Term"
 
     fields
     {
-        field(10; "Project Code"; code[10])
+        field(10; "Project Code"; Code[20])
         {
             DataClassification = AccountData;
             Caption = 'Project Code';
             Editable = false;
+            TableRelation = "BCX Translation Project";
         }
-        field(20; "Target Language"; code[10])
+        field(20; "Target Language"; Code[10])
         {
             DataClassification = AccountData;
             Caption = 'Target Language';

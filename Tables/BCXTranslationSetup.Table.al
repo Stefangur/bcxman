@@ -5,12 +5,12 @@ table 78606 "BCX Translation Setup"
 
     fields
     {
-        field(10; "Primary Key"; code[10])
+        field(10; "Primary Key"; Code[10])
         {
             DataClassification = SystemMetadata;
             Caption = 'Primary Key';
         }
-        field(30; "Default Source Language code"; code[10])
+        field(30; "Default Source Language code"; Code[10])
         {
             DataClassification = SystemMetadata;
             Caption = 'Default Source Language code';
@@ -59,6 +59,19 @@ table 78606 "BCX Translation Setup"
         {
             Caption = 'DeepL API Key';
             DataClassification = SystemMetadata;
+        }
+
+        field(80000; "DeepL Free API Endpoint"; Text[200])
+        {
+            Caption = 'DeepL Free API Endpoint';
+            DataClassification = SystemMetadata;
+            InitValue = 'https://api-free.deepl.com/v2/translate';
+        }
+        field(80010; "DeepL Paid API Endpoint"; Text[200])
+        {
+            Caption = 'DeepL Paid API Endpoint';
+            DataClassification = SystemMetadata;
+            InitValue = 'https://api.deepl.com/v2/translate';
         }
 
     }

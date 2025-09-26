@@ -16,7 +16,7 @@ codeunit 78604 "BCX Project Importer"
             else
                 acc += chunk;
         end;
-        exit(acc); 
+        exit(acc);
     end;
 
     procedure ImportFromZip(ProjectCode: Code[20]; SourceLangIso: Text[10]; Overwrite: Boolean)
@@ -44,8 +44,8 @@ codeunit 78604 "BCX Project Importer"
         TransProject: Record "BCX Translation Project";
         TransTerm: Record "BCX Translation Term";
 
-        SourceLanguageRec: Record "Language";
-        TargetLanguageRec: Record "Language";
+        SourceLanguageRec: Record Language;
+        TargetLanguageRec: Record Language;
         TargetsToProcess: List of [Text];
         SourceName: Text;
         ImportedCnt: Integer;
@@ -137,7 +137,7 @@ codeunit 78604 "BCX Project Importer"
             if OriginalProjectName <> '' then
                 TransProject.Validate("Project Name", OriginalProjectName);
 
-            SourceLanguageRec.Setrange("BCX ISO code", SourceLangIso);
+            SourceLanguageRec.SetRange("BCX ISO code", SourceLangIso);
             if not SourceLanguageRec.FindFirst() then
                 Error('Iso code not set for Language %1', SourceLangIso);
             TransProject.Validate("Source Language", SourceLanguageRec.Code);
@@ -162,15 +162,15 @@ codeunit 78604 "BCX Project Importer"
             TempBlob.CreateInStream(EntryInS);
 
             TransTargetLanguage.SetRange("Project Code", ProjectCode);
-            TransTargetLanguage.SetRange("Target Language ISO Code", TargetLangISO);
+            TransTargetLanguage.SetRange("Target Language ISO code", TargetLangISO);
             if not TransTargetLanguage.FindFirst() then begin
                 TransTargetLanguage.Init();
                 TransTargetLanguage."Project Code" := ProjectCode;
                 TransTargetLanguage."Source Language" := SourceLanguageRec.Code;
-                TransTargetLanguage."Source Language ISO Code" := SourceLangIso;
-                TransTargetLanguage."Target Language ISO Code" := TargetLangISO;
+                TransTargetLanguage."Source Language ISO code" := SourceLangIso;
+                TransTargetLanguage."Target Language ISO code" := TargetLangISO;
                 if TargetLangISO <> '' then begin
-                    TargetLanguageRec.Setrange("BCX ISO code", TargetLangISO);
+                    TargetLanguageRec.SetRange("BCX ISO code", TargetLangISO);
                     if TargetLanguageRec.FindFirst() then
                         TransTargetLanguage."Target Language" := TargetLanguageRec.Code;
                 end;

@@ -15,7 +15,7 @@ codeunit 78600 "BCX Google Translate Rest"
         exit(TranslatedText);
     end;
 
-    procedure Translate(ProjectCode: Text[20]; inSourceLang: Text[10]; inTargetLang: Text[10]; inText: Text[2048]) outTransText: text[2048]
+    procedure Translate(ProjectCode: Text[20]; inSourceLang: Text[10]; inTargetLang: Text[10]; inText: Text[2048]) outTransText: Text[2048]
     var
         EndPoint: Text;
         TokenName: Text[50];
@@ -34,7 +34,7 @@ codeunit 78600 "BCX Google Translate Rest"
         if not HttpClient.Get(EndPoint, ResponseMessage) then
             Error('The call to the web service failed.');
         if not ResponseMessage.IsSuccessStatusCode then
-            error('The web service returned an error message:\\' + 'Status code: %1\' + 'Description: %2', ResponseMessage.HttpStatusCode, ResponseMessage.ReasonPhrase);
+            Error('The web service returned an error message:\\' + 'Status code: %1\' + 'Description: %2', ResponseMessage.HttpStatusCode, ResponseMessage.ReasonPhrase);
         ResponseMessage.Content.ReadAs(TransText);
 
         TranslatedText := GetLines(TransText);
@@ -82,23 +82,23 @@ codeunit 78600 "BCX Google Translate Rest"
     local procedure GetLinesOld(inTxt: Text) outTxt: Text;
 
     begin
-        if copystr(inTxt, 1, 1) <> '[' then
+        if CopyStr(inTxt, 1, 1) <> '[' then
             exit;
-        while copystr(inTxt, 1, 1) = '[' do
+        while CopyStr(inTxt, 1, 1) = '[' do
             inTxt := DelChr(inTxt, '<', '[');
         inTxt := DelChr(inTxt, '<', '"');
-        outTxt := CopyStr(inTxt, 1, strpos(inTxt, '"') - 1);
+        outTxt := CopyStr(inTxt, 1, StrPos(inTxt, '"') - 1);
         if StrPos(inTxt, '],[') > 0 then begin
             inTxt := CopyStr(inTxt, StrPos(inTxt, '],[') + 3);
             inTxt := DelChr(inTxt, '<', '"');
-            outTxt += CopyStr(inTxt, 1, strpos(inTxt, '"') - 1);
+            outTxt += CopyStr(inTxt, 1, StrPos(inTxt, '"') - 1);
         end;
-    end; 
+    end;
 
     var
         HttpClient: HttpClient;
         ResponseMessage: HttpResponseMessage;
-        TransText: text;
+        TransText: Text;
         CurrencyRate: Record "Currency Exchange Rate" temporary;
         Currency: Record Currency;
         InvExchRate: Decimal;

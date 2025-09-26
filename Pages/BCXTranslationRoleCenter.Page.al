@@ -9,7 +9,7 @@ page 78614 "BCX Translation Role Center"
         {
             part(Activities; "BCX Translation Activities")
             {
-                ApplicationArea = all;
+                ApplicationArea = All;
             }
         }
     }
@@ -21,7 +21,7 @@ page 78614 "BCX Translation Role Center"
             action(Setup)
             {
                 Caption = 'Translation Setup';
-                RunObject = Page "BCX Translation Setup";
+                RunObject = page "BCX Translation Setup";
                 ApplicationArea = All;
             }
         }
@@ -42,7 +42,7 @@ page 78614 "BCX Translation Role Center"
             action("Translation Projects")
             {
                 ApplicationArea = All;
-                RunObject = Page "BCX Trans Project List";
+                RunObject = page "BCX Trans Project List";
             }
         }
     }

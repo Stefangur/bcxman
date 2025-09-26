@@ -28,7 +28,7 @@ page 78601 "BCX Translation Source List"
                 }
             }
         }
-        area(Factboxes)
+        area(FactBoxes)
         {
             part(TransNotes; "BCX Translation Notes")
             {

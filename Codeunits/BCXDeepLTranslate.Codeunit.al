@@ -54,7 +54,13 @@ codeunit 78607 "BCX DeepL Translate"
             Payload.Add('source_lang', TmpSrc);
 
         // Prepare request (always use free endpoint)
-        Request.SetRequestUri('https://api-free.deepl.com/v2/translate');
+        if Setup."DeepL Free API Endpoint" <> '' then
+            Request.SetRequestUri(Setup."DeepL Free API Endpoint");
+
+        /// User paid API endpoint
+        if Setup."DeepL Paid API Endpoint" <> '' then
+            Request.SetRequestUri(Setup."DeepL Paid API Endpoint");
+
         Request.Method := 'POST';
 
         Request.GetHeaders(Headers);

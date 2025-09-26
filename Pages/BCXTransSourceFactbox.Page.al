@@ -14,17 +14,17 @@ page 78615 "BCX Trans Source Factbox"
                 field(TotalCaptions; TotalCaptions)
                 {
                     Caption = 'Total Captions';
-                    ApplicationArea = all;
+                    ApplicationArea = All;
                 }
                 field(TotalMissingTranslations; TotalMissingTranslations)
                 {
                     Caption = 'Total Missing Translations';
-                    ApplicationArea = all;
+                    ApplicationArea = All;
                 }
                 field(TotalMissingCaptions; TotalMissingCaptions)
                 {
                     Caption = 'Total Missing Captions';
-                    ApplicationArea = all;
+                    ApplicationArea = All;
                 }
             }
         }

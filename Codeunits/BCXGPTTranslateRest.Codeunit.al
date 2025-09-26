@@ -101,7 +101,7 @@ codeunit 78602 "BCX GPT Translate Rest"
         UserMsg.Add('role', 'user');
 
         foreach Term in Glossary do
-            InText := InText.Replace(Term, '__KEEP__' + Term + '__/KEEP__');
+            inText := inText.Replace(Term, '__KEEP__' + Term + '__/KEEP__');
 
         UserMsg.Add('content', inTargetLang + TypeHelper.NewLine() + inText);
         Messages.Add(UserMsg);

@@ -24,7 +24,7 @@ page 78607 "BCX Translation Setup"
             }
             group("Translate Tools")
             {
-                group("Google")
+                group(Google)
                 {
                     ShowCaption = false;
 
@@ -34,11 +34,14 @@ page 78607 "BCX Translation Setup"
                         ToolTip = 'Use the free Google API for translation. The limitation is that it is only possible to access the API a limited number of times each hour.';
                     }
                 }
-                group("ChatGPT")
+                group(ChatGPT)
                 {
                     ShowCaption = false;
 
-                    field("Use ChatGPT"; Rec."Use OpenAI") { }
+                    field("Use ChatGPT"; Rec."Use OpenAI")
+                    {
+                        ApplicationArea = All;
+                    }
                     field("ChatGPT API Key"; Rec."OpenAI API Key")
                     {
                         ApplicationArea = All;
@@ -50,10 +53,23 @@ page 78607 "BCX Translation Setup"
                         ApplicationArea = All;
                     }
                 }
-                group("DeepL")
+                group(DeepL)
                 {
                     ShowCaption = false;
-                    field("Use DeepL"; Rec."Use DeepL") { }
+                    field("Use DeepL"; Rec."Use DeepL")
+                    {
+                        ApplicationArea = All;
+                    }
+                    field("DeepL Free API Endpoint"; Rec."DeepL Free API Endpoint")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Use the free DeepL API endpoint. The limitation is that it is only possible to access the API a limited number of times each hour.';
+                    }
+                    field("DeepL Paid API Endpoint"; Rec."DeepL Paid API Endpoint")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Use the paid DeepL API endpoint. Requires a paid DeepL subscription.';
+                    }
                     field("DeepL API Key"; Rec."DeepL API Key")
                     {
                         ApplicationArea = All;
@@ -99,8 +115,8 @@ page 78607 "BCX Translation Setup"
     }
     trigger OnOpenPage()
     begin
-        if not Rec.get() then begin
-            Rec.init();
+        if not Rec.Get() then begin
+            Rec.Init();
             Rec.Insert();
         end;
 
@@ -110,7 +126,7 @@ page 78607 "BCX Translation Setup"
 
     procedure UpdateAllLanguages()
     var
-        Lang: Record "Language";
+        Lang: Record Language;
         Map: Dictionary of [Text, Text];
         IsoTxt: Text;
         Updated: Integer;
@@ -124,8 +140,8 @@ page 78607 "BCX Translation Setup"
                 CodeTxt := Format(Lang.Code);
                 if Map.ContainsKey(CodeTxt) then begin
                     Map.Get(CodeTxt, IsoTxt);
-                    if Lang."BCX Iso Code" <> IsoTxt then begin
-                        Lang.Validate("BCX Iso Code", IsoTxt);
+                    if Lang."BCX ISO code" <> IsoTxt then begin
+                        Lang.Validate("BCX ISO code", IsoTxt);
                         Lang.Modify(true);
                         Updated += 1;
                     end;

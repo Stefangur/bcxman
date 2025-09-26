@@ -22,7 +22,7 @@ codeunit 78601 "BCX Install Translations"
                             UserPersonalization.Modify();
                         until UserPersonalization.Next() = 0;
                 end;
-            until user.Next() = 0;
+            until User.Next() = 0;
 
     end;
 }

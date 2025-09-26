@@ -122,7 +122,7 @@ page 78600 "BCX Trans Project List"
 
                     TransProject.Get(Rec."Project Code");
                     if (TransProject."File Name" <> '') and Success then
-                        message(ImportedTxt, TransProject."File Name", Rec."Project Code");
+                        Message(ImportedTxt, TransProject."File Name", Rec."Project Code");
                 end;
             }
             action("Target Languages")
@@ -194,7 +194,7 @@ page 78600 "BCX Trans Project List"
         TransSetup: Record "BCX Translation Setup";
 
     begin
-        TransSetup.get();
+        TransSetup.Get();
         Rec.Validate("Source Language", TransSetup."Default Source Language code");
         Rec.Validate("NAV Version", Rec."NAV Version"::"Dynamics 365 Business Central");
     end;
@@ -206,7 +206,7 @@ page 78600 "BCX Trans Project List"
     begin
         UserAccess.SetRange("User Id", UserId());
         if UserAccess.FindSet() then
-            Repeat
+            repeat
                 if FilterTxt <> '' then
                     FilterTxt += '|' + UserAccess."Project Code"
                 else

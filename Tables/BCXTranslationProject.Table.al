@@ -6,7 +6,7 @@ table 78600 "BCX Translation Project"
 
     fields
     {
-        field(10; "Project Code"; code[20])
+        field(10; "Project Code"; Code[20])
         {
             Caption = 'Project Code';
             DataClassification = SystemMetadata;
@@ -30,7 +30,7 @@ table 78600 "BCX Translation Project"
                     Language.TestField("BCX ISO code");
                     "Source Language ISO code" := Language."BCX ISO code"
                 end else
-                    clear("Source Language ISO code");
+                    Clear("Source Language ISO code");
             end;
         }
         field(32; "Target Language"; Text[10])
@@ -124,7 +124,7 @@ table 78600 "BCX Translation Project"
 
     fieldgroups
     {
-        fieldgroup("DropDown"; "Project Code", "Project Name")
+        fieldgroup(DropDown; "Project Code", "Project Name")
         {
 
         }
@@ -137,11 +137,11 @@ table 78600 "BCX Translation Project"
     var
         TransSetup: Record "BCX Translation Setup";
     begin
-        "Created By" := copystr(UserId(), 1, MaxStrLen(("Created By")));
+        "Created By" := CopyStr(UserId(), 1, MaxStrLen(("Created By")));
         "Creation Date" := Today;
-        TransSetup.get();
+        TransSetup.Get();
         if "Source Language" = '' then
-            validate("Source Language", TransSetup."Default Source Language code");
+            Validate("Source Language", TransSetup."Default Source Language code");
 
     end;
 

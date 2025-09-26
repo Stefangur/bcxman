@@ -64,8 +64,8 @@ codeunit 78605 "BCX Xliff Parser"
         RecNote: Record "BCX Translation Notes";
         RecBaseNote: Record "BCX Base Translation Notes";
         RecProject: Record "BCX Translation Project";
-        RecTargetLanguage: Record "Language";
-        RecSourceLanguage: Record "Language";
+        RecTargetLanguage: Record Language;
+        RecSourceLanguage: Record Language;
     begin
         // Parse XML
         XmlHelper.ReadXmlFromInStream(InS, XmlDoc);
@@ -96,7 +96,7 @@ codeunit 78605 "BCX Xliff Parser"
             RecTargetLanguage.FindFirst();
 
             // If the <file original="..."> contains an original project name, update project (optional)
-            if (mode = 'Source') then begin
+            if (Mode = 'Source') then begin
                 RecProject.Get(ProjectCode);
                 RecProject."File Name" := FileName;
                 if XmlHelper.GetAttr(FileEl, 'original') <> '' then
@@ -176,7 +176,7 @@ codeunit 78605 "BCX Xliff Parser"
                     RecNote.Priority := NotePriority;
                     RecNote.Note := NoteText;
                     if ((RecNote.Note <> '') and ((RecSource."Field Name" = '') or (RecNote.From = 'Xliff Generator'))) then
-                        RecSource."Field Name" := RecNote."Note";
+                        RecSource."Field Name" := RecNote.Note;
                     if not RecNote.Insert() then
                         RecNote.Modify();
                 end;
@@ -211,7 +211,7 @@ codeunit 78605 "BCX Xliff Parser"
                     RecBaseNote.Priority := NotePriority;
                     RecBaseNote.Note := NoteText;
                     if ((RecBaseNote.Note <> '') and ((RecBaseTarget."Field Name" = '') or (RecBaseNote.From = 'Xliff Generator'))) then
-                        RecBaseTarget."Field Name" := RecBaseNote."Note";
+                        RecBaseTarget."Field Name" := RecBaseNote.Note;
                     if not RecBaseNote.Insert() then
                         RecBaseNote.Modify();
 
@@ -229,9 +229,10 @@ codeunit 78605 "BCX Xliff Parser"
                 RecTarget.Translate := false;
                 if (RecTarget.Target = '') then begin
                     RecExistingTarget.Init();
-                    RecExistingTarget.SetRange("Source", RecTarget.Source);
+                    RecExistingTarget.SetCurrentKey(Source, "Target Language ISO code", Translate);
+                    RecExistingTarget.SetRange(Source, RecTarget.Source);
                     RecExistingTarget.SetRange("Target Language ISO code", RecTarget."Target Language ISO code");
-                    RecExistingTarget.SetRange("Translate", false);
+                    RecExistingTarget.SetRange(Translate, false);
                     if RecExistingTarget.FindFirst() then
                         RecTarget.Target := RecExistingTarget.Target
                     else
@@ -266,7 +267,7 @@ codeunit 78605 "BCX Xliff Parser"
                     RecNote.Priority := NotePriority;
                     RecNote.Note := NoteText;
                     if ((RecNote.Note <> '') and ((RecTarget."Field Name" = '') or (RecNote.From = 'Xliff Generator'))) then
-                        RecTarget."Field Name" := RecNote."Note";
+                        RecTarget."Field Name" := RecNote.Note;
                     if not RecNote.Insert() then
                         RecNote.Modify();
                 end;
@@ -275,7 +276,7 @@ codeunit 78605 "BCX Xliff Parser"
                     RecTarget.Modify();
 
             end;
+            commit;
         end;
     end;
-
 }

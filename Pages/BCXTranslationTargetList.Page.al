@@ -56,7 +56,7 @@ page 78603 "BCX Translation Target List"
                 }
             }
         }
-        area(Factboxes)
+        area(FactBoxes)
         {
             part(TransNotes; "BCX Translation Notes")
             {
@@ -80,7 +80,7 @@ page 78603 "BCX Translation Target List"
     {
         area(Processing)
         {
-            action("Translate")
+            action(Translate)
             {
                 ApplicationArea = All;
                 Caption = 'Translate';
@@ -95,7 +95,7 @@ page 78603 "BCX Translation Target List"
                     Translater: Codeunit "BCX Translate Dispatcher";
                     Project: Record "BCX Translation Project";
                 begin
-                    Project.get(Rec."Project Code");
+                    Project.Get(Rec."Project Code");
                     Rec.Target := Translater.Translate(Project."Project Code", Project."Source Language ISO code",
                                               Rec."Target Language ISO code",
                                               Rec.Source);
@@ -126,7 +126,7 @@ page 78603 "BCX Translation Target List"
                     end;
                 end;
             }
-            action("Copy")
+            action(Copy)
             {
                 ApplicationArea = All;
                 Caption = 'Copy';
@@ -270,7 +270,7 @@ page 78603 "BCX Translation Target List"
                     TransProject: Record "BCX Translation Project";
                 begin
                     if Confirm(WarningTxt) then begin
-                        TransProject.get(Rec."Project Code");
+                        TransProject.Get(Rec."Project Code");
                         case TransProject."NAV Version" of
                             TransProject."NAV Version"::"Dynamics 365 Business Central":
                                 begin
@@ -335,7 +335,7 @@ page 78603 "BCX Translation Target List"
         TransExistingTarget: Record "BCX Translation Target";
         TargetLanguage: Record "BCX Target Language";
     begin
-        TransSetup.get();
+        TransSetup.Get();
         ShowTranslate := TransSetup."Use Free Google Translate" or TransSetup."Use OpenAI" or TransSetup."Use DeepL";
         ShowTargetLanguageCode := true;
         TargetLanguageFilter := Rec.GetFilter("Target Language");
@@ -350,9 +350,12 @@ page 78603 "BCX Translation Target List"
                     TransTarget."Target Language" := TargetLanguageFilter;
                     TransTarget."Target Language ISO code" := TargetLanguageIsoFilter;
 
-                    TransExistingTarget.SetRange("Source", TransTarget.Source);
+                    //SGU >>
+                    TransExistingTarget.SetCurrentKey(Source, "Target Language ISO code", Translate);
+                    //SGU <<
+                    TransExistingTarget.SetRange(Source, TransTarget.Source);
                     TransExistingTarget.SetRange("Target Language ISO code", TargetLanguageIsoFilter);
-                    TransExistingTarget.SetRange("Translate", false);
+                    TransExistingTarget.SetRange(Translate, false);
                     if TransExistingTarget.FindFirst() then begin
                         TransTarget.Target := TransExistingTarget.Target;
                         TransTarget.Translate := false;
@@ -483,7 +486,7 @@ page 78603 "BCX Translation Target List"
 
 
     // This does the post-translation replacement of terms
-    local procedure ReplaceTermInTranslation(TargetLanguageIsoCode: Text[10]; inTarget: Text[250]) outTarget: Text[250]
+    local procedure ReplaceTermInTranslation(TargetLanguageIsoCode: Text[10]; inTarget: Text[2048]) outTarget: Text[2048]
     var
         TransTerm: Record "BCX Translation Term";
         StartPos: Integer;
@@ -495,9 +498,9 @@ page 78603 "BCX Translation Target List"
             repeat
                 if TransTerm."Apply Pre-Translation" then
                     continue; // Skip terms that are marked for pre-translation only
-                StartPos := strpos(LowerCase(inTarget), LowerCase(TransTerm.Term));
+                StartPos := StrPos(LowerCase(inTarget), LowerCase(TransTerm.Term));
                 if StartPos > 0 then begin
-                    StartLetterIsUppercase := copystr(inTarget, StartPos, 1) = uppercase(copystr(inTarget, StartPos, 1));
+                    StartLetterIsUppercase := CopyStr(inTarget, StartPos, 1) = UpperCase(CopyStr(inTarget, StartPos, 1));
                     if StartLetterIsUppercase then
                         TransTerm.Translation := UpperCase(TransTerm.Translation[1]) + CopyStr(TransTerm.Translation, 2)
                     else
@@ -505,11 +508,11 @@ page 78603 "BCX Translation Target List"
                     if (StartPos > 1) then begin
                         outTarget := CopyStr(inTarget, 1, StartPos - 1) +
                                      TransTerm.Translation +
-                                     CopyStr(inTarget, StartPos + strlen(TransTerm.Term));
+                                     CopyStr(inTarget, StartPos + StrLen(TransTerm.Term));
                         Found := true;
                     end else begin
                         outTarget := TransTerm.Translation +
-                                     CopyStr(inTarget, strlen(TransTerm.Term) + 1);
+                                     CopyStr(inTarget, StrLen(TransTerm.Term) + 1);
                         Found := true;
                     end;
                 end;
@@ -543,7 +546,7 @@ page 78603 "BCX Translation Target List"
                     Counter += 1;
                 end;
             until TransTarget.Next() = 0;
-        message(FinishedTxt, Counter);
+        Message(FinishedTxt, Counter);
     end;
 
     local procedure UpdateFromSource()
@@ -554,7 +557,7 @@ page 78603 "BCX Translation Target List"
         DeletedCounter: Integer;
         FinishedTxt: Label '%1 source captions updated. %2 obsolete targets deleted.';
     begin
-        TransTarget.Modifyall(Translate, false);
+        TransTarget.ModifyAll(Translate, false);
         if TransSource.FindSet() then
             repeat
                 TransTarget.SetRange("Project Code", TransSource."Project Code");

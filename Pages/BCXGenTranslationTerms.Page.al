@@ -45,7 +45,7 @@ page 78608 "BCX Gen. Translation Terms"
         FilterVal: Text;
     begin
         // Get the filter applied to the "Project Code" field
-        FilterVal := Rec.GETFILTER("Project Code");
+        FilterVal := Rec.GetFilter("Project Code");
         if FilterVal = '' then
             exit;
 
